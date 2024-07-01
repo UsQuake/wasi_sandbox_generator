@@ -76,12 +76,12 @@ fn main() {
     
         fds_str += &ret;
     
-        let wasm_pylib_path = "../py-wasi-sandbox/lib.wasi-wasm32-3.14-pydebug";
+        let wasm_pylib_path = "../py-wasi-sandbox/lib.wasi-wasm32-3.14";
         let init_map = recur_run(wasm_pylib_path, BTreeMap::new());
         let res = print_tree(&(wasm_pylib_path.to_string(),wasm_pylib_path.to_string()), &init_map);
-        let ret = res.replacen(wasm_pylib_path, "/lib.wasi-wasm32-3.14-pydebug", 1);
-        let ret = ret.replace(wasm_pylib_path, "./lib.wasi-wasm32-3.14-pydebug");
-        let mut ret = ret.replacen("[\"/lib.wasi-wasm32-3.14-pydebug\", new Directory([", "new PreopenDirectory(\"lib.wasi-wasm32-3.14-pydebug\", [", 1);
+        let ret = res.replacen(wasm_pylib_path, "/lib.wasi-wasm32-3.14", 1);
+        let ret = ret.replace(wasm_pylib_path, "./lib.wasi-wasm32-3.14");
+        let mut ret = ret.replacen("[\"/lib.wasi-wasm32-3.14\", new Directory([", "new PreopenDirectory(\"lib.wasi-wasm32-3.14\", [", 1);
         ret.pop();
         ret.pop();
         ret.pop();
@@ -101,7 +101,7 @@ fn main() {
         fds_str += &"\n];";
     
         result_js = result_js.replacen("let fds = [];", &fds_str,1);
-        result_js = result_js.replacen("let env = [];", "let env = [\"PYTHONPATH=/lib.wasi-wasm32-3.14-pydebug\"];",1);
+        result_js = result_js.replacen("let env = [];", "let env = [\"PYTHONPATH=/lib.wasi-wasm32-3.14\"];",1);
     
         std::fs::write("./module-ready-wasi-py.js", result_js).unwrap();
     }
