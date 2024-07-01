@@ -45,17 +45,17 @@ fn print_tree(start_point: &(String,String), res: &BTreeMap<String, Vec<(String,
 fn main() {
 
     {
-        let mut result_js = std::fs::read_to_string("base-wasi-rb.js").unwrap();
-        let mut fds_str = String::from("let fds = [\nnew OpenFile(new File([])),\nConsoleStdout.lineBuffered((msg) => print(`${msg}`)),\nConsoleStdout.lineBuffered((msg) => print(`[WASI stderr] ${msg}`)),\n");
-        let path = "../fuzzingbook_rs/ruby-wasm32-wasi";
-        let init_map = recur_run(path, BTreeMap::new());
-        let res = print_tree(&(path.to_string(),path.to_string()), &init_map);
-        let ret = res.replacen(path, "/ruby-wasm32-wasi", 1);
-        let ret = ret.replace(path, "./ruby-wasm32-wasi");
-        fds_str += &ret;
-        fds_str += &"\n];";
-        result_js = result_js.replacen("let fds = [];", &fds_str,1);
-        std::fs::write("./module-ready-wasi-rb.js", result_js).unwrap();
+       // let mut result_js = std::fs::read_to_string("base-wasi-rb.js").unwrap();
+       // let mut fds_str = String::from("let fds = [\nnew OpenFile(new File([])),\nConsoleStdout.lineBuffered((msg) => print(`${msg}`)),\nConsoleStdout.lineBuffered((msg) => print(`[WASI stderr] ${msg}`)),\n");
+       // let path = "../fuzzingbook_rs/ruby-wasm32-wasi";
+      //  let init_map = recur_run(path, BTreeMap::new());
+       // let res = print_tree(&(path.to_string(),path.to_string()), &init_map);
+       // let ret = res.replacen(path, "/ruby-wasm32-wasi", 1);
+       // let ret = ret.replace(path, "./ruby-wasm32-wasi");
+       // fds_str += &ret;
+       // fds_str += &"\n];";
+       // result_js = result_js.replacen("let fds = [];", &fds_str,1);
+       // std::fs::write("./module-ready-wasi-rb.js", result_js).unwrap();
     }
 
 
