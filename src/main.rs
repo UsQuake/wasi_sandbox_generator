@@ -61,7 +61,8 @@ fn main() {
 
     {
         let mut result_js = std::fs::read_to_string("base-wasi-py.js").unwrap();
-        let mut fds_str = String::from("let fds = [\nnew OpenFile(new File([])),\nConsoleStdout.lineBuffered((msg) => print(`${msg}`)),\nConsoleStdout.lineBuffered((msg) => print(`[WASI stderr] ${msg}`)),\n");
+        let mut fds_str = String::from("let fds = [\nnew OpenFile(new File([])),\nConsoleStdout.lineBuffered((msg) => print(`${msg}`)),\nConsoleStdout.lineBuffered((msg) => print(`[WASI stderr] ${msg}`)),\nnew PreopenDirectory("/", [\n[\"testcase.py\", new File(new TextEncoder().encode(read(\"./testcase.py\")))],\n
+    ]),\n");
 
         let pymodule_path = "../py-wasi-sandbox/Modules";
         let init_map = recur_run(pymodule_path, BTreeMap::new());
