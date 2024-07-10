@@ -106,7 +106,7 @@ fn main() {
         let init_map = recur_run(py_libpath, BTreeMap::new());
         let pylib_obj_in_js = print_tree(&(py_libpath.to_string(),py_libpath.to_string()), &init_map);
         let ret = pylib_obj_in_js.replacen(py_libpath, "/Lib", 1);
-        let ret = ret.replace(py_libpath, "./lib");
+        let ret = ret.replace(py_libpath, "./Lib");
         let mut ret = ret.replacen("[\"/Lib\", new Directory([", "new PreopenDirectory(\"/Lib\", [", 1);
         ret.pop();
         ret.pop();
