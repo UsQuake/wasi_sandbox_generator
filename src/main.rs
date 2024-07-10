@@ -102,7 +102,7 @@ fn main() {
         ret.push_str(",\n");
         fds_str += &ret;
     
-        let py_libpath = "../py-wasi-sandbox/lib";
+        let py_libpath = "../py-wasi-sandbox/Lib";
         let init_map = recur_run(py_libpath, BTreeMap::new());
         let pylib_obj_in_js = print_tree(&(py_libpath.to_string(),py_libpath.to_string()), &init_map);
         let ret = pylib_obj_in_js.replacen(py_libpath, "/Lib", 1);
