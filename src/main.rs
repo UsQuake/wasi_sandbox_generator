@@ -51,7 +51,7 @@ fn main() {
     {
         let mut result_js = std::fs::read_to_string("base-wasi-rb.js").unwrap();
         let mut fds_str = String::from("let fds = [\nnew OpenFile(new File([])),\nConsoleStdout.lineBuffered((msg) => print(`${msg}`)),\nConsoleStdout.lineBuffered((msg) => print(`${msg}`)),\n");
-        let path = "../ruby-wasm32-wasi";
+        let path = "../rb-wasi-sandbox/ruby-wasm32-wasi";
         let init_map = recur_run(path, BTreeMap::new());
         let res = print_tree(&(path.to_string(),path.to_string()), &init_map);
         let ret = res.replacen(path, "/ruby-wasm32-wasi", 1);
@@ -75,7 +75,7 @@ fn main() {
         let mut result_js = std::fs::read_to_string("base-wasi-py.js").unwrap();
         let mut fds_str = String::from("let fds = [\nnew OpenFile(new File([])),\nConsoleStdout.lineBuffered((msg) => print(`${msg}`)),\nConsoleStdout.lineBuffered((msg) => print(`${msg}`)),\n");
 
-        let pymodule_path = "../fuzzingbook_rs/Modules";
+        let pymodule_path = "../py-wasi-sandbox/Modules";
         let init_map = recur_run(pymodule_path, BTreeMap::new());
         let res = print_tree(&(pymodule_path.to_string(),pymodule_path.to_string()), &init_map);
         let ret = res.replacen(pymodule_path, "/Modules", 1);
@@ -102,7 +102,7 @@ fn main() {
         ret.push_str(",\n");
         fds_str += &ret;
     
-        let py_libpath = "../fuzzingbook_rs/lib";
+        let py_libpath = "../py-wasi-sandbox/lib";
         let init_map = recur_run(py_libpath, BTreeMap::new());
         let pylib_obj_in_js = print_tree(&(py_libpath.to_string(),py_libpath.to_string()), &init_map);
         let ret = pylib_obj_in_js.replacen(py_libpath, "/Lib", 1);
