@@ -50,13 +50,13 @@ fn main() {
     if args[1] == "ruby"
     {
         let mut result_js = std::fs::read_to_string("base-wasi-rb.js").unwrap();
-        let mut fds_str = String::from("let fds = [\nnew OpenFile(new File([])),\nConsoleStdout.lineBuffered((msg) => print(`${msg}`)),\nConsoleStdout.lineBuffered((msg) => print(`${msg}`)),\nnew PreopenDirectory(\"/\", [\n[\"testcase.rb\",\nnew File(new TextEncoder().encode(read(\"../testcase_volume/testcase.rb\")))]]),");
+        let mut fds_str = String::from("let fds = [\nnew OpenFile(new File([])),\nConsoleStdout.lineBuffered((msg) => print(`${msg}`)),\nConsoleStdout.lineBuffered((msg) => print(`${msg}`)),\nnew PreopenDirectory(\"/\", [\n[\"testcase.rb\",\nnew File(new TextEncoder().encode(read(\"../testcase_volume/testcase.rb\")))],");
         let path = "../rb-wasi-sandbox/ruby-wasm32-wasi";
         let init_map = recur_run(path, BTreeMap::new());
         let res = print_tree(&(path.to_string(),path.to_string()), &init_map);
         let ret = res.replacen(path, "/ruby-wasm32-wasi", 1);
         let ret = ret.replace(path, "./ruby-wasm32-wasi");
-        let ret = ret.replace("]),[\"/ruby-wasm32-wasi\", new Directory([", ",");
+        let ret = ret.replace("[\"/ruby-wasm32-wasi\", new Directory([\n", "");
         fds_str += &ret;
         fds_str.pop();
         fds_str.pop();
