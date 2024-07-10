@@ -50,8 +50,8 @@ fn main() {
     if args[1] == "ruby"
     {
         let mut result_js = std::fs::read_to_string("base-wasi-rb.js").unwrap();
-        let mut fds_str = String::from("let fds = [\nnew OpenFile(new File([])),\nConsoleStdout.lineBuffered((msg) => print(`${msg}`)),\nConsoleStdout.lineBuffered((msg) => print(`[WASI stderr] ${msg}`)),\n");
-        let path = "../fuzzingbook_rs/ruby-wasm32-wasi";
+        let mut fds_str = String::from("let fds = [\nnew OpenFile(new File([])),\nConsoleStdout.lineBuffered((msg) => print(`${msg}`)),\nConsoleStdout.lineBuffered((msg) => print(`${msg}`)),\n");
+        let path = "../ruby-wasm32-wasi";
         let init_map = recur_run(path, BTreeMap::new());
         let res = print_tree(&(path.to_string(),path.to_string()), &init_map);
         let ret = res.replacen(path, "/ruby-wasm32-wasi", 1);
@@ -73,7 +73,7 @@ fn main() {
         let py_versions:Vec<&str> = python_version.split('.').collect();
 
         let mut result_js = std::fs::read_to_string("base-wasi-py.js").unwrap();
-        let mut fds_str = String::from("let fds = [\nnew OpenFile(new File([])),\nConsoleStdout.lineBuffered((msg) => print(`${msg}`)),\nConsoleStdout.lineBuffered((msg) => print(`[WASI stderr] ${msg}`)),\n");
+        let mut fds_str = String::from("let fds = [\nnew OpenFile(new File([])),\nConsoleStdout.lineBuffered((msg) => print(`${msg}`)),\nConsoleStdout.lineBuffered((msg) => print(`${msg}`)),\n");
 
         let pymodule_path = "../fuzzingbook_rs/Modules";
         let init_map = recur_run(pymodule_path, BTreeMap::new());
