@@ -56,8 +56,11 @@ fn main() {
         let res = print_tree(&(path.to_string(),path.to_string()), &init_map);
         let ret = res.replacen(path, "/ruby-wasm32-wasi", 1);
         let ret = ret.replace(path, "./ruby-wasm32-wasi");
+        let ret = ret.replace("]),[\"/ruby-wasm32-wasi\", new Directory([", ",");
         fds_str += &ret;
-        fds_str += &"\n];";
+        fds_str.pop();
+        fds_str.pop();
+        fds_str.push(';');
         result_js = result_js.replacen("let fds = [];", &fds_str,1);
         std::fs::write("./module-ready-wasi-rb.js", result_js).unwrap();
     }
