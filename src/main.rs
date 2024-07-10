@@ -50,7 +50,7 @@ fn main() {
     if args[1] == "ruby"
     {
         let mut result_js = std::fs::read_to_string("base-wasi-rb.js").unwrap();
-        let mut fds_str = String::from("let fds = [\nnew OpenFile(new File([])),\nConsoleStdout.lineBuffered((msg) => print(`${msg}`)),\nConsoleStdout.lineBuffered((msg) => print(`${msg}`)),\nnew PreopenDirectory(\"/\", [\n[\n\"testcase.rb\",\nnew File(new TextEncoder().encode(read(\"./testcase.rb\"))),\n],");
+        let mut fds_str = String::from("let fds = [\nnew OpenFile(new File([])),\nConsoleStdout.lineBuffered((msg) => print(`${msg}`)),\nConsoleStdout.lineBuffered((msg) => print(`${msg}`)),\nnew PreopenDirectory(\"/\", [\n[\"testcase.rb\",\nnew File(new TextEncoder().encode(read(\"./testcase.rb\")))]]),");
         let path = "../rb-wasi-sandbox/ruby-wasm32-wasi";
         let init_map = recur_run(path, BTreeMap::new());
         let res = print_tree(&(path.to_string(),path.to_string()), &init_map);
@@ -73,7 +73,7 @@ fn main() {
         let py_versions:Vec<&str> = python_version.split('.').collect();
 
         let mut result_js = std::fs::read_to_string("base-wasi-py.js").unwrap();
-        let mut fds_str = String::from("let fds = [\nnew OpenFile(new File([])),\nConsoleStdout.lineBuffered((msg) => print(`${msg}`)),\nConsoleStdout.lineBuffered((msg) => print(`${msg}`)),\nnew PreopenDirectory(\"/\", [\n[\n\"testcase.py\",\nnew File(new TextEncoder().encode(read(\"./testcase.py\"))),\n],");
+        let mut fds_str = String::from("let fds = [\nnew OpenFile(new File([])),\nConsoleStdout.lineBuffered((msg) => print(`${msg}`)),\nConsoleStdout.lineBuffered((msg) => print(`${msg}`)),\nnew PreopenDirectory(\"/\", [\n[\"testcase.py\",\nnew File(new TextEncoder().encode(read(\"./testcase.py\")))]]),");
 
         let pymodule_path = "../py-wasi-sandbox/Modules";
         let init_map = recur_run(pymodule_path, BTreeMap::new());
