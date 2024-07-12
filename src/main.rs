@@ -47,11 +47,11 @@ fn main() {
     let args: Vec<String> = std::env::args().collect();
 
     assert!(args.len() >= 2);
-    if args[1] == "ruby"
+    if args[1] == "rb"
     {
-        let mut result_js = std::fs::read_to_string("base-wasi-rb.js").unwrap();
-        let mut fds_str = String::from("let fds = [\nnew OpenFile(new File([])),\nConsoleStdout.lineBuffered((msg) => print(`${msg}`)),\nConsoleStdout.lineBuffered((msg) => print(`${msg}`)),\nnew PreopenDirectory(\"/\", [\n[\"testcase.rb\",\nnew File(new TextEncoder().encode(read(\"../testcase_volume/testcase.rb\")))],");
-        let path = "../rb-wasi-sandbox/ruby-wasm32-wasi";
+        let mut result_js = std::fs::read_to_string("/root/wasi_sandbox_generator/base-wasi-rb.js").unwrap();
+        let mut fds_str = String::from("let fds = [\nnew OpenFile(new File([])),\nConsoleStdout.lineBuffered((msg) => print(`${msg}`)),\nConsoleStdout.lineBuffered((msg) => print(`${msg}`)),\nnew PreopenDirectory(\"/\", [\n[\"testcase.rb\",\nnew File(new TextEncoder().encode(read(\"/root/rb-wasi-sandbox/testcase.rb\")))],");
+        let path = "/root/rb-wasi-sandbox/ruby-wasm32-wasi";
         let init_map = recur_run(path, BTreeMap::new());
         let res = print_tree(&(path.to_string(),path.to_string()), &init_map);
         let ret = res.replacen(path, "/ruby-wasm32-wasi", 1);
@@ -62,9 +62,9 @@ fn main() {
         fds_str.pop();
         fds_str.push(';');
         result_js = result_js.replacen("let fds = [];", &fds_str,1);
-        std::fs::write("./module-ready-wasi-rb.js", result_js).unwrap();
+        std::fs::write("/root/rb-wasi-sandbox/module-ready-wasi-rb.js", result_js).unwrap();
     }
-    else if args[1] == "python"
+    else if args[1] == "py"
     {
         assert!(args.len() == 3);
 
@@ -75,10 +75,10 @@ fn main() {
         let python_version = python_version_info[1].to_string();
         let py_versions:Vec<&str> = python_version.split('.').collect();
 
-        let mut result_js = std::fs::read_to_string("base-wasi-py.js").unwrap();
-        let mut fds_str = String::from("let fds = [\nnew OpenFile(new File([])),\nConsoleStdout.lineBuffered((msg) => print(`${msg}`)),\nConsoleStdout.lineBuffered((msg) => print(`${msg}`)),\nnew PreopenDirectory(\"/\", [\n[\"testcase.py\",\nnew File(new TextEncoder().encode(read(\"../testcase_volume/testcase.py\")))]]),");
+        let mut result_js = std::fs::read_to_string("/root/wasi_sandbox_generator/base-wasi-py.js").unwrap();
+        let mut fds_str = String::from("let fds = [\nnew OpenFile(new File([])),\nConsoleStdout.lineBuffered((msg) => print(`${msg}`)),\nConsoleStdout.lineBuffered((msg) => print(`${msg}`)),\nnew PreopenDirectory(\"/\", [\n[\"testcase.py\",\nnew File(new TextEncoder().encode(read(\"/root/py-wasi-sandbox/testcase.py\")))]]),");
 
-        let pymodule_path = "../py-wasi-sandbox/Modules";
+        let pymodule_path = "/root/py-wasi-sandbox/Modules";
         let init_map = recur_run(pymodule_path, BTreeMap::new());
         let res = print_tree(&(pymodule_path.to_string(),pymodule_path.to_string()), &init_map);
         let ret = res.replacen(pymodule_path, "/Modules", 1);
@@ -91,7 +91,7 @@ fn main() {
     
         fds_str += &ret;
     
-        let mut wasm_pylib_path = String::from("../py-wasi-sandbox");
+        let mut wasm_pylib_path = String::from("/root/py-wasi-sandbox");
         let pyver_libpath= "/lib.wasi-wasm32-".to_string() + py_versions[0] +"." + py_versions[1];
         wasm_pylib_path += &pyver_libpath;
         let init_map = recur_run(&wasm_pylib_path, BTreeMap::new());
@@ -105,7 +105,7 @@ fn main() {
         ret.push_str(",\n");
         fds_str += &ret;
     
-        let py_libpath = "../py-wasi-sandbox/Lib";
+        let py_libpath = "/root/py-wasi-sandbox/Lib";
         let init_map = recur_run(py_libpath, BTreeMap::new());
         let pylib_obj_in_js = print_tree(&(py_libpath.to_string(),py_libpath.to_string()), &init_map);
         let ret = pylib_obj_in_js.replacen(py_libpath, "/Lib", 1);
@@ -120,6 +120,6 @@ fn main() {
         result_js = result_js.replacen("let fds = [];", &fds_str,1);
         result_js = result_js.replacen("let env = [];", &("let env = [\"PYTHONPATH=".to_string() + &pyver_libpath + "\"];"),1);
     
-        std::fs::write("./module-ready-wasi-py.js", result_js).unwrap();
+        std::fs::write("/root/py-wasi-sandbox/module-ready-wasi-py.js", result_js).unwrap();
     }
 }
