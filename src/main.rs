@@ -56,7 +56,7 @@ fn main() {
                  "/root/rb-wasi-sandbox/testcase.rb"
             };
 
-        let mut result_js = std::fs::read_to_string("./wasi_sandbox_generator/base-wasi-rb.js").unwrap();
+        let mut result_js = std::fs::read_to_string("./base-wasi-rb.js").unwrap();
         let mut fds_str = String::from("let fds = [\nnew OpenFile(new File([])),\nConsoleStdout.lineBuffered((msg) => print(`${msg}`)),\nConsoleStdout.lineBuffered((msg) => print(`${msg}`)),\nnew PreopenDirectory(\"/\", [\n[\"testcase.rb\",\nnew File(new TextEncoder().encode(read(\"");
         fds_str += testcase_path;
         fds_str += "\")))],";
@@ -103,7 +103,7 @@ fn main() {
         let python_version = python_version_info[1].to_string();
         let py_versions:Vec<&str> = python_version.split('.').collect();
 
-        let mut result_js = std::fs::read_to_string("./wasi_sandbox_generator/base-wasi-py.js").unwrap();
+        let mut result_js = std::fs::read_to_string("./base-wasi-py.js").unwrap();
         let mut fds_str = String::from("let fds = [\nnew OpenFile(new File([])),\nConsoleStdout.lineBuffered((msg) => print(`${msg}`)),\nConsoleStdout.lineBuffered((msg) => print(`${msg}`)),\nnew PreopenDirectory(\"/\", [\n[\"testcase.py\",\nnew File(new TextEncoder().encode(read(\"");
         fds_str += testcase_path;
         fds_str += "\")))]]),";
