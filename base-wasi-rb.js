@@ -2178,17 +2178,29 @@ console = console || {
     // `performance.now`, as it's not available in d8.
     self.dartUseDateNowForTicks = true;
   })(this, []);
-  
+  class Instrument{
+    constructor(func_count){
+      this.func_call_count_table = Array(func_count).fill(0);
+      this.wasi_inst_call = {
+        increase_call_count(func_idx){
+            this.func_call_cnt_table[func_idx]++;
+            return 0
+        }
+      };
+    }
+  }
   async function wasi_main() {
     let wasi_args = ["usr/local/bin/ruby", "./testcase.rb"];
     let env = [];
     let fds = [];
     let wasi = new WASI(wasi_args, env, fds, {debug:false});
+    let instrum = new Instrument(10240);
     let wasm = await WebAssembly.compile(
       read_file("./ruby-wasm32-wasi/usr/local/bin/ruby"),
     );
     let inst = await WebAssembly.instantiate(wasm, {
       wasi_snapshot_preview1: wasi.wasiImport,
+      instrumentation: instrum.wasi_inst_call
     });
     wasi.start(inst);
     quit();
