@@ -2178,13 +2178,14 @@ console = console || {
     // `performance.now`, as it's not available in d8.
     self.dartUseDateNowForTicks = true;
   })(this, []);
-   class Instrument{
+  class Instrument{
     constructor(func_count){
       this.func_call_count_table = Array(func_count).fill(0);
+      const self = this;
       this.wasi_inst_call = {
         increase_call_count(func_idx){
             //console.log(func_idx);
-            //this.func_call_count_table[func_idx]++;
+            self.func_call_count_table[func_idx]++;
         }
       };
     }
